@@ -1,3 +1,45 @@
+// import React, { useEffect, useState, useContext, useRef } from 'react';
+// import { Link, useNavigate } from 'react-router-dom';
+// import { CiShoppingCart, CiUser } from "react-icons/ci";
+// import { FiHeart } from "react-icons/fi";
+// import { CartContext } from './Cart/CartContext';
+// import { ChevronDown, User, LogOut, Edit3, Lock, ShoppingBag } from "lucide-react";
+
+// export default function Navbar({ onSearch }) {
+//   const { totalQuantity, clearCart } = useContext(CartContext);
+//   const [isOpen, setIsOpen] = useState(false);
+//   const [fname, setFname] = useState("Guest");
+//   const [cartItems, setCartItems] = useState([]);
+//   const [dropdownOpen, setDropdownOpen] = useState(false);
+//   const dropdownRef = useRef(null);
+//   const navigate = useNavigate();
+
+//   const [searchInput, setSearchInput] = useState("");
+
+//   useEffect(() => {
+//     const handleClickOutside = (event) => {
+//       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+//         setDropdownOpen(false);
+//       }
+//     };
+//     document.addEventListener("mousedown", handleClickOutside);
+//     return () => document.removeEventListener("mousedown", handleClickOutside);
+//   }, []);
+
+//   useEffect(() => {
+//     const storedName = localStorage.getItem("fname");
+//     if (storedName) {
+//       setFname(storedName);
+//     }
+//   }, []);
+
+//   const handleSearchSubmit = (e) => {
+//     e.preventDefault();
+//     if (onSearch) {
+//       onSearch(searchInput); 
+//     }
+//   };
+
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { CiShoppingCart, CiUser } from "react-icons/ci";
@@ -13,10 +55,10 @@ export default function Navbar({ onSearch }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
-
   const [searchInput, setSearchInput] = useState("");
 
   useEffect(() => {
+    // Close dropdown when clicking outside
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setDropdownOpen(false);
@@ -27,10 +69,13 @@ export default function Navbar({ onSearch }) {
   }, []);
 
   useEffect(() => {
-    const storedName = localStorage.getItem("fname");
-    if (storedName) {
-      setFname(storedName);
+    // Get fname from localStorage, set to 'Guest' if not found
+    let storedName = localStorage.getItem("fname");
+    if (!storedName) {
+      localStorage.setItem("fname", "Guest");
+      storedName = "Guest";
     }
+    setFname(storedName);
   }, []);
 
   const handleSearchSubmit = (e) => {
@@ -39,10 +84,9 @@ export default function Navbar({ onSearch }) {
       onSearch(searchInput); 
     }
   };
-
   return (
-    <nav className="bg-white shadow-md p-4">
-      <div className="container mx-auto flex items-center justify-between">
+    <nav className="bg-white shadow-md p-4 sticky top-0 z-50">
+    <div className="container mx-auto flex items-center justify-between">  
         <Link to="/" className="flex items-center space-x-2 text-xl font-bold text-gray-800">
           <img 
             alt="Your Company" 
@@ -63,7 +107,8 @@ export default function Navbar({ onSearch }) {
 
         <div className={`absolute md:static top-full left-0 w-full md:w-auto bg-white md:bg-transparent md:flex items-center z-10 transition-all duration-300 ease-in-out ${isOpen ? 'block' : 'hidden'}`}>
           <ul className="md:flex md:space-x-6 space-y-2 md:space-y-0 p-4 md:p-0">
-            <li><a className="text-gray-700 hover:text-blue-500" href="/">Home</a></li>
+            {/* <li><a className="text-gray-700 hover:text-blue-500" href="/">Home</a></li> */}
+            <li><Link  className="text-gray-700 hover:text-blue-500" to="/">Home</Link></li>
             <li><Link className="text-gray-700 hover:text-blue-500" to="/Register">Register</Link></li>
             <li><Link className="text-gray-700 hover:text-blue-500" to="/Login">Login</Link></li>
             <li><Link className="text-gray-700 hover:text-blue-500" to="/AboutUs">About Us</Link></li>

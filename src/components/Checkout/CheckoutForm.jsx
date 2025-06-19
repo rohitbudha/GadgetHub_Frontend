@@ -173,13 +173,15 @@ const CheckoutForm = () => {
           {cartItems.map((product) => (
             <li key={product.id} className="flex py-6">
               <div className="w-24 h-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                <img src={product.image} alt={product.name} className="h-full w-full object-cover object-center" />
+                <img src={product.imageUrl} alt={product.name} className="h-full w-full object-cover object-center" />
               </div>
               <div className="ml-4 flex flex-1 flex-col justify-between">
                 <div>
                   <div className="flex justify-between text-base font-medium text-gray-900">
                     <h3>{product.name}</h3>
-                    <p>Rs{(parseFloat(product.price.replace(/[^0-9.]/g, '')) * product.quantity).toFixed(2)}</p>
+                    {/* <p>Rs{(parseFloat(product.price.replace(/[^0-9.]/g, '')) * product.quantity).toFixed(2)}</p> */}
+                    <p>Rs {(product.price * product.quantity).toFixed(2)}</p>
+
                   </div>
                   <p className="mt-1 text-sm text-gray-500">{product.category}</p>
                 </div>

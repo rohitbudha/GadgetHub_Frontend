@@ -75,7 +75,7 @@ const HomeProductList = ({ products, originalCount, searchTerm }) => {
             className="border rounded-lg p-4 shadow-md hover:shadow-xl hover:-translate-y-1 transition-transform duration-300"
           >
             <img
-              src={product.image}
+              src={product.imageUrl}
               alt={product.name}
               className="w-full h-48 object-cover rounded mb-4"
             />

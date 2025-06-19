@@ -13,13 +13,16 @@ export default function Sidebar() {
     e.preventDefault(); 
     localStorage.removeItem("fname");
     localStorage.removeItem("token");
+    localStorage.removeItem("userRole");
     setFname("Guest");
     navigate("/")
   };
 
   return (
     <>
-      <aside className="w-52 bg-gray-800 text-white p-5 fixed h-full">
+      {/* <aside className="w-52 bg-gray-800 text-white p-5 fixed h-full"> */}
+      <aside className="w-52 bg-gray-800 text-white p-5 fixed h-full overflow-y-auto">
+
         <img alt="gadgethub" src="../logo.png?color=indigo&shade=600" className="mx-auto h-20 w-auto" />
         <nav className="flex flex-col space-y-2">
           <a href="#" className="flex items-center p-3 hover:no-underline">
@@ -37,6 +40,10 @@ export default function Sidebar() {
           <Link to="/ProductList" className="flex items-center p-3 hover:no-underline">
             <i className="mr-3"><CiShoppingCart /></i> View Products
           </Link>
+          <Link to="/AddProduct" className="flex items-center p-3 hover:no-underline">
+            <i className="mr-3"><CiShoppingCart /></i> Add Products
+          </Link>
+
 
           {/* This looks and behaves like other Links but logs out on click */}
           <Link  onClick={handleLogout} className="flex items-center p-3 hover:no-underline">

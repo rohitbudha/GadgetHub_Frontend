@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 
 import DashboarCards from '../ui/DashboarCards'
 
-export default function Mainbar({ fname }) {
+export default function Mainbar({ adminName }) {
       const [dropdownOpen, setDropdownOpen] = useState(false);
         const dropdownRef = useRef(null);
         
@@ -24,7 +24,7 @@ export default function Mainbar({ fname }) {
   <main className="ml-72 p-6 w-full">
   <header className="flex justify-between items-center bg-white p-4 rounded-lg shadow">
     <h1 className="text-2xl font-bold text-gray-800">
-      Welcome back, Mr {fname}!
+      Welcome back,{adminName}!
     </h1>
 
     <div className="relative" ref={dropdownRef}>

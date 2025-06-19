@@ -7,10 +7,22 @@ const Cart = () => {
   const { cartItems, removeFromCart, increaseQuantity, decreaseQuantity } = useCart();
   const navigate = useNavigate();
 
-  const subtotal = cartItems.reduce((total, product) => {
-    const numericPrice = parseFloat(product.price.replace(/[^0-9.]/g, ''));
-    return total + numericPrice * (product.quantity || 1);
-  }, 0);
+  // const subtotal = cartItems.reduce((total, product) => {
+  //   const numericPrice = parseFloat(product.price.replace(/[^0-9.]/g, ''));
+  //   return total + numericPrice * (product.quantity || 1);
+  // }, 0);
+
+
+    const subtotal = cartItems.reduce((total, product) => {
+  let price = product.price;
+
+  // If price is a string (e.g., "Rs1234"), extract the numeric part
+  if (typeof price === 'string') {
+    price = parseFloat(price.replace(/[^0-9.]/g, ''));
+  }
+
+  return total + price * (product.quantity || 1);
+}, 0);
 
   if (cartItems.length === 0) {
     return (
@@ -33,7 +45,7 @@ const Cart = () => {
     }
   };
   
-  
+
 
 //   return (
 //     <div className="container mx-auto py-10 px-4">
@@ -69,6 +81,7 @@ const Cart = () => {
 //     </div>
 //   );
 // };
+
 return (
     <div className="max-w-4xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-6">Your Shopping Cart</h1>
@@ -78,7 +91,7 @@ return (
           <li key={product.id} className="flex py-6">
             <div className="w-24 h-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
               <img
-                src={product.image}
+                src={product.imageUrl}
                 alt={product.name}
                 className="h-full w-full object-cover object-center"
               />
@@ -87,7 +100,15 @@ return (
               <div>
                 <div className="flex justify-between text-base font-medium text-gray-900">
                   <h3>{product.name}</h3>
-                  <p>Rs{(parseFloat(product.price.replace(/[^0-9.]/g, '')) * product.quantity).toFixed(2)}</p>
+                  {/* <p>Rs{(parseFloat(product.price.replace(/[^0-9.]/g, '')) * product.quantity).toFixed(2)}</p> */}
+                  <p>
+  Rs{(
+    (typeof product.price === 'string'
+      ? parseFloat(product.price.replace(/[^0-9.]/g, ''))
+      : product.price) * product.quantity
+  ).toFixed(2)}
+</p>
+
                 </div>
                 <p className="mt-1 text-sm text-gray-500">{product.category}</p>
               </div>

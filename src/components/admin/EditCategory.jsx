@@ -1,12 +1,34 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
 export default function Category() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const [msg, setMsg] = useState("");
+  const [existingImageUrl, setExistingImageUrl] = useState(null);
 
-  const imageInputRef = useRef(); 
+  const imageInputRef = useRef();
+  const { id } = useParams(); // Grab category id from route if editing
+  const navigate = useNavigate();
+
+  const isEdit = Boolean(id);
+
+  // Load category data if in edit mode
+  useEffect(() => {
+    if (isEdit) {
+      fetch(`http://localhost:8080/customers/category/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setName(data.name);
+          setDescription(data.description);
+          setExistingImageUrl(data.image);
+        })
+        .catch((err) => {
+          console.error("Failed to load category:", err);
+        });
+    }
+  }, [id]);
 
   const uploadToCloudinary = async () => {
     const data = new FormData();
@@ -28,7 +50,11 @@ export default function Category() {
     setMsg("");
 
     try {
-      const imageUrl = await uploadToCloudinary();
+      let imageUrl = existingImageUrl;
+
+      if (image) {
+        imageUrl = await uploadToCloudinary();
+      }
 
       const category = {
         name,
@@ -36,23 +62,33 @@ export default function Category() {
         image: imageUrl,
       };
 
-      const response = await fetch("http://localhost:8080/customers/category/add", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(category),
-      });
+      const response = await fetch(
+        isEdit
+          ? `http://localhost:8080/customers/category/update/${id}`
+          : "http://localhost:8080/customers/category/add",
+        {
+          method: isEdit ? "PUT" : "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(category),
+        }
+      );
 
       if (response.ok) {
-        setMsg("Category added successfully!");
-        setName("");
-        setDescription("");
-        setImage(null);
-        imageInputRef.current.value = ""; 
+        setMsg(isEdit ? "Category updated successfully!" : "Category added successfully!");
+        if (!isEdit) {
+          setName("");
+          setDescription("");
+          setImage(null);
+          setExistingImageUrl(null);
+          imageInputRef.current.value = "";
+        } else {
+          navigate("/categories"); // redirect to list page if you have one
+        }
       } else {
         const result = await response.json();
-        setMsg(result.message || "Failed to add category.");
+        setMsg(result.message || "Failed to submit category.");
       }
     } catch (error) {
       console.error("error", error);
@@ -62,7 +98,7 @@ export default function Category() {
 
   return (
     <div className="max-w-lg mx-auto mt-6 p-6 bg-white shadow rounded">
-      <h2 className="text-xl font-bold mb-4">Add Category</h2>
+      <h2 className="text-xl font-bold mb-4">{isEdit ? "Edit Category" : "Add Category"}</h2>
       {msg && <p className="text-green-600 font-semibold mb-4">{msg}</p>}
 
       <form onSubmit={handleSubmit}>
@@ -100,12 +136,13 @@ export default function Category() {
             accept="image/*"
             className="block w-full text-sm"
             onChange={(e) => setImage(e.target.files[0])}
-            required
             ref={imageInputRef}
+            // remove `required` in edit mode
+            required={!isEdit}
           />
-          {image && (
+          {(image || existingImageUrl) && (
             <img
-              src={URL.createObjectURL(image)}
+              src={image ? URL.createObjectURL(image) : existingImageUrl}
               alt="Preview"
               className="w-32 h-32 object-cover mt-2 rounded"
             />
@@ -116,10 +153,9 @@ export default function Category() {
           type="submit"
           className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
         >
-          Add Category
+          {isEdit ? "Update Category" : "Add Category"}
         </button>
       </form>
     </div>
   );
 }
-

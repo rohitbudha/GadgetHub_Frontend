@@ -19,6 +19,9 @@ import HomeProductList from './components/HomeProductList';
 import Cart from './components/Cart/Cart';
 import CheckoutForm from './components/Checkout/CheckoutForm';
 import PaymentFailure from './components/Payment/PaymentFailure';
+import Home from './components/Home';
+import AddProduct from './components/admin/product/AddProduct';
+import EditProduct from './components/admin/product/EditProduct';
 
 function App() {
   const products = [
@@ -66,7 +69,7 @@ function App() {
 
   const [searchTerm, setSearchTerm] = useState('');
 const [filteredProducts, setFilteredProducts] = useState(products);
-const productListRef = useRef(null); // Reference to the product list section
+const productListRef = useRef(null); 
 
 const handleSearch = (keyword) => {
   const cleanedKeyword = keyword.trim().toLowerCase();
@@ -78,7 +81,7 @@ const handleSearch = (keyword) => {
 
   setFilteredProducts(results);
 
-  // Scroll to the bottom of the product list
+ 
   if (productListRef.current) {
     productListRef.current.scrollIntoView({ behavior: 'smooth' });
   }
@@ -98,7 +101,7 @@ const handleSearch = (keyword) => {
               <div className="product-list-section" ref={productListRef}>
                
                   <>                   
-                    <HomeProductList
+                    <Home
   products={filteredProducts}
   originalCount={products.length}
   searchTerm={searchTerm}
@@ -118,6 +121,8 @@ const handleSearch = (keyword) => {
         <Route path="/CustomerDashboard" element={<><Navbar /><CustomerDashboard /><Footer /></>} />
         <Route path="/CategoryList" element={<><Sidebar /><Mainbar /><CategoryList /></>} />
         <Route path="/ProductList" element={<><Sidebar /><Mainbar /><ProductList /></>} />
+        <Route path="/AddProduct" element={<><Sidebar /><Mainbar /><AddProduct /></>} />
+        <Route path="/EditProduct/:id" element={<><Sidebar /><Mainbar /><EditProduct /></>} />
         <Route path="/Cart" element={<><Navbar /><Cart /><Footer /></>} />
         <Route path="/CheckoutForm" element={<><Navbar /><CheckoutForm /><Footer /></>} />
         <Route path="/paymentfailure" element={<><Navbar /><PaymentFailure /><Footer /></>} />
@@ -127,3 +132,49 @@ const handleSearch = (keyword) => {
 }
 
 export default App;
+
+
+// return (
+//   <Router>
+//     <Routes>
+//       {/* Public Routes */}
+//       <Route
+//         path="/"
+//         element={
+//           <>
+//             <Navbar onSearch={handleSearch} />
+//             <Carousel />
+//             <Cate />
+//             <div className="product-list-section" ref={productListRef}>
+//               <HomeProductList
+//                 products={filteredProducts}
+//                 originalCount={products.length}
+//                 searchTerm={searchTerm}
+//               />
+//             </div>
+//             <Footer />
+//           </>
+//         }
+//       />
+//       <Route path="/Login" element={<><Navbar /><Login /><Footer /></>} />
+//       <Route path="/Register" element={<><Navbar /><Register /><Footer /></>} />
+//       <Route path="/Cart" element={<><Navbar /><Cart /><Footer /></>} />
+//       <Route path="/CheckoutForm" element={<><Navbar /><CheckoutForm /><Footer /></>} />
+//       <Route path="/paymentfailure" element={<><Navbar /><PaymentFailure /><Footer /></>} />
+//       <Route path="/CustomerDashboard" element={<><Navbar /><CustomerDashboard /><Footer /></>} />
+
+//       {/* Admin Routes (Protected) */}
+//       <Route element={<AdminDashboard allowedRole="ADMIN" />}>
+
+//         <Route path="/AdminDashboard" element={<AdminDashboard />} />
+//         <Route path="/CustomerList" element={<><Sidebar /><Mainbar /><CustomerList /></>} />
+//         <Route path="/Category" element={<><Sidebar /><Mainbar /><Category /></>} />
+//         <Route path="/CategoryList" element={<><Sidebar /><Mainbar /><CategoryList /></>} />
+//         <Route path="/ProductList" element={<><Sidebar /><Mainbar /><ProductList /></>} />
+//       </Route>
+//     </Routes>
+//   </Router>
+// );
+// }
+
+// export default App;
