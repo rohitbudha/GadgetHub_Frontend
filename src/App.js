@@ -22,6 +22,7 @@ import PaymentFailure from './components/Payment/PaymentFailure';
 import Home from './components/Home';
 import AddProduct from './components/admin/product/AddProduct';
 import EditProduct from './components/admin/product/EditProduct';
+import { ViewProductDetails } from './components/ViewProductDetails';
 
 function App() {
   const products = [
@@ -126,6 +127,8 @@ const handleSearch = (keyword) => {
         <Route path="/Cart" element={<><Navbar /><Cart /><Footer /></>} />
         <Route path="/CheckoutForm" element={<><Navbar /><CheckoutForm /><Footer /></>} />
         <Route path="/paymentfailure" element={<><Navbar /><PaymentFailure /><Footer /></>} />
+        <Route path="/productDetails" element={<><Navbar /><ViewProductDetails /><Footer /></>} />
+
       </Routes>
     </Router>
   );

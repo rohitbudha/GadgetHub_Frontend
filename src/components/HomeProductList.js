@@ -3,6 +3,7 @@ import { CiShoppingCart } from "react-icons/ci";
 import { toast, ToastContainer } from "react-toastify";
 import { CartContext } from "./Cart/CartContext";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 const defaultProducts = [
   {
@@ -50,11 +51,15 @@ const defaultProducts = [
 const HomeProductList = ({ products, originalCount, searchTerm }) => {
   const searchPerformed = searchTerm.trim() !== '';
   const { addToCart } = useContext(CartContext);
-
+  const navigate=useNavigate();
   const handleAddToCart = (product) => {
     addToCart(product);
     toast.success(`${product.name} added to cart!`);
   };
+
+  const viewDetails=(product)=>{
+    navigate('/productDetails',{state:{product}})
+  }
 
   return (
     <div className="container mx-auto py-10 px-4">
@@ -77,7 +82,8 @@ const HomeProductList = ({ products, originalCount, searchTerm }) => {
             <img
               src={product.imageUrl}
               alt={product.name}
-              className="w-full h-48 object-cover rounded mb-4"
+              className="w-full h-48 object-cover rounded mb-4 cursor-pointer"
+              onClick={()=>viewDetails(product)}
             />
             <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
             <div className="flex items-center gap-2 mb-2">
