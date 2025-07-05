@@ -87,7 +87,7 @@ const HomeProductList = ({ products, originalCount, searchTerm }) => {
             />
             <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
             <div className="flex items-center gap-2 mb-2">
-              <span className="text-blue-600 font-bold text-xl">{product.price}</span>
+              <span className="text-blue-600 font-bold text-xl">Rs {product.price}</span>
             </div>
             <button
               onClick={() => handleAddToCart(product)}
@@ -104,5 +104,4 @@ const HomeProductList = ({ products, originalCount, searchTerm }) => {
 };
 
 export default HomeProductList;
-
 

@@ -23,6 +23,15 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage("");
+  setSuccessMessage("");
+  const errors = validateForm();
+
+   if (errors.length > 0) {
+    setErrorMessage(errors.join(" "));
+    return;
+  }
+
 
     try {
         const response = await fetch("http://localhost:8080/customers/add", {
@@ -54,6 +63,35 @@ export default function Register() {
     }
   };
 
+
+  const validateForm = () => {
+  const errors = [];
+
+  if (!formData.fname.trim()) errors.push("First name is required.");
+  if (!formData.lname.trim()) errors.push("Last name is required.");
+  if (!formData.address.trim()) errors.push("Address is required.");
+  if (!formData.gender) errors.push("Gender is required.");
+
+  // Basic email format validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(formData.email)) {
+    errors.push("A valid email is required.");
+  }
+
+  // Phone number validation: should be numeric and 7-15 digits
+  if (!/^\d{7,15}$/.test(formData.number)) {
+    errors.push("Phone number must be 7-15 digits.");
+  }
+
+  // Password: minimum length 6
+  if (formData.password.length < 8) {
+    errors.push("Password must be at least 8 characters.");
+  }
+
+  return errors;
+};
+
+
   return (
     <>
       <section className="bg-white py-5 h-auto">
@@ -82,7 +120,7 @@ export default function Register() {
                           value={formData.fname}
                           onChange={handleChange}
                           className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-                        />
+                        required/>
                       </div>
                       <div className="mb-4">
                         <label htmlFor="lastName" className="block text-sm font-medium text-gray-900">Last Name</label>
@@ -93,7 +131,7 @@ export default function Register() {
                           value={formData.lname}
                           onChange={handleChange}
                           className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-                        />
+                        required/>
                       </div>
                     </div>
 
@@ -107,7 +145,7 @@ export default function Register() {
                           value={formData.address}
                           onChange={handleChange}
                           className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-                        />
+                        required/>
                       </div>
                       <div className="mb-4">
                         <h6 className="text-sm font-medium text-gray-900">Gender:</h6>
@@ -120,7 +158,7 @@ export default function Register() {
                               checked={formData.gender === "male"}
                               onChange={handleChange}
                               className="form-radio text-indigo-600"
-                            />
+                           required />
                             <span className="ml-2">Male</span>
                           </label>
                           <label className="inline-flex items-center mr-4">
@@ -131,7 +169,7 @@ export default function Register() {
                               checked={formData.gender === "female"}
                               onChange={handleChange}
                               className="form-radio text-indigo-600"
-                            />
+                            required/>
                             <span className="ml-2">Female</span>
                           </label>
                           <label className="inline-flex items-center">
@@ -142,7 +180,7 @@ export default function Register() {
                               checked={formData.gender === "other"}
                               onChange={handleChange}
                               className="form-radio text-indigo-600"
-                            />
+                            required/>
                             <span className="ml-2">Other</span>
                           </label>
                         </div>
@@ -159,7 +197,7 @@ export default function Register() {
                           value={formData.email}
                           onChange={handleChange}
                           className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-                        />
+                        required/>
                       </div>
                       <div className="mb-4">
                         <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-900">Phone Number</label>
@@ -170,7 +208,7 @@ export default function Register() {
                           value={formData.number}
                           onChange={handleChange}
                           className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-                        />
+                        required/>
                       </div>
                     </div>
 
@@ -183,14 +221,14 @@ export default function Register() {
                         value={formData.password}
                         onChange={handleChange}
                         className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-                      />
+                      required/>
                     </div>
 
                     <div className="mt-6">
                       <button
                         type="submit"
                         className="w-full py-2 px-4 bg-indigo-600 text-white rounded-md hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
-                      >
+                     required >
                         Submit
                       </button>
                     </div>

@@ -4,12 +4,15 @@ import { FiHeart } from "react-icons/fi";
 import { CiShoppingCart } from "react-icons/ci";
 import { toast } from "react-toastify";
 import { CartContext } from "./Cart/CartContext";
+import { ToastContainer } from "react-toastify";
+
 
 export const ViewProductDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { addToCart } = useContext(CartContext);
   const product = location.state?.product;
+ 
 
   useEffect(() => {
     if (!product) {
@@ -20,6 +23,7 @@ export const ViewProductDetails = () => {
   const handleAddToCart = (product) => {
     addToCart(product);
     toast.success(`${product.name} added to cart!`);
+    
   };
 
   if (!product) return null;
@@ -29,11 +33,11 @@ export const ViewProductDetails = () => {
       <div className="max-w-5xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
         <div className="md:flex">
           {/* Image Section */}
-          <div className="md:flex-shrink-0 bg-gray-100 flex justify-center items-center p-6">
+<div className="w-[150px] h-[150px] flex items-center justify-center bg-gray-100">
             <img
               src={product.imageUrl}
               alt={product.name}
-              className="max-h-[450px] object-contain rounded-lg"
+className="h-[150px] w-[150px] object-contain rounded-md"
             />
           </div>
 
@@ -45,7 +49,7 @@ export const ViewProductDetails = () => {
                 {product.name}
               </h1>
               <p className="text-gray-600 text-lg">
-                <span className="font-semibold">Category:</span> {product.category}
+                <span className="font-semibold">Category:</span> {product.category.name}
               </p>
               <p className="text-gray-600 text-lg">
                 <span className="font-semibold">Price:</span>{" "}
@@ -85,6 +89,8 @@ export const ViewProductDetails = () => {
           </div>
         </div>
       </div>
+            <ToastContainer position="top-right" autoClose={800} hideProgressBar />
+
     </section>
   );
 };

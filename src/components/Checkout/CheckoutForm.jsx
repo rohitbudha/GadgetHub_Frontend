@@ -94,8 +94,7 @@ const CheckoutForm = () => {
             value={formData.email}
             onChange={handleChange}
             className="mt-1 w-full border border-gray-300 rounded-md px-4 py-2"
-            required
-          />
+            required/>
 
           <label className="block text-sm font-medium text-gray-700">Phone No</label>
           <input
@@ -123,21 +122,21 @@ const CheckoutForm = () => {
             onChange={handleChange}
             placeholder="Last Name"
             className="border border-gray-300 rounded-md px-4 py-2"
-          />
+          required/>
           <input
             name="address"
             value={formData.address}
             onChange={handleChange}
             placeholder="Address (Municipality-Wardno,City,District)"
             className="md:col-span-2 border border-gray-300 rounded-md px-4 py-2"
-          />
+          required/>
           <input
             name="landmark"
             value={formData.landmark}
             onChange={handleChange}
             placeholder="Landmark (e.g. temple, street, etc.)"
             className="md:col-span-2 border border-gray-300 rounded-md px-4 py-2"
-          />
+          required/>
         </div>
 
         <div className="mt-6">
@@ -150,7 +149,7 @@ const CheckoutForm = () => {
                 value="cod"
                 checked={formData.paymentMethod === "cod"}
                 onChange={handleChange}
-              />
+             required />
               Cash on Delivery
             </label>
             <label className="flex items-center gap-2">
@@ -160,7 +159,7 @@ const CheckoutForm = () => {
                 value="wallet"
                 checked={formData.paymentMethod === "wallet"}
                 onChange={handleChange}
-              />
+              required/>
               Pay with Wallet
             </label>
           </div>

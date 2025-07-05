@@ -9,12 +9,12 @@ export default function Category() {
   const [existingImageUrl, setExistingImageUrl] = useState(null);
 
   const imageInputRef = useRef();
-  const { id } = useParams(); // Grab category id from route if editing
+  const { id } = useParams(); 
   const navigate = useNavigate();
 
   const isEdit = Boolean(id);
 
-  // Load category data if in edit mode
+ 
   useEffect(() => {
     if (isEdit) {
       fetch(`http://localhost:8080/customers/category/${id}`)
@@ -84,7 +84,7 @@ export default function Category() {
           setExistingImageUrl(null);
           imageInputRef.current.value = "";
         } else {
-          navigate("/categories"); // redirect to list page if you have one
+          navigate("/categories"); 
         }
       } else {
         const result = await response.json();
@@ -137,7 +137,7 @@ export default function Category() {
             className="block w-full text-sm"
             onChange={(e) => setImage(e.target.files[0])}
             ref={imageInputRef}
-            // remove `required` in edit mode
+           
             required={!isEdit}
           />
           {(image || existingImageUrl) && (
